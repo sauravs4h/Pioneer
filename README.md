@@ -22,8 +22,6 @@ cd your-repository
 npm install
 ```
 
-
-
 ## Endpoints
 
 ### User Authentication
@@ -42,9 +40,7 @@ npm install
 
 ## Deployment
 
-
+https://pioneer-pvri.onrender.com/
 
 ## Demo
-
-
-
+https://drive.google.com/file/d/1glYgiaxoXCJkpkEKS7bgF_KYAqEoXL7G/view?usp=sharing
