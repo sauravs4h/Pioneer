@@ -16,6 +16,7 @@ const { connection } = require("./config/db");
 
 const { userRouter } = require("./routes/User.routes");
 const { task2Router } = require("./routes/task2.routes");
+const { task4Router } = require("./routes/rask4.routes");
 
 app.get("/", (req, res) => {
   res.json({ message: "base api" });
@@ -23,6 +24,7 @@ app.get("/", (req, res) => {
 
 app.use("/user", userRouter);
 app.use("/task2", task2Router);
+app.use("/task4",task4Router);
 
 app.listen(8080, async () => {
   try {

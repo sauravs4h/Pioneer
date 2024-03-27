@@ -95,7 +95,7 @@ const logout = async (req, res) => {
       const expirationTime = Math.floor(Date.now() / 1000);
 
       // Sign a new token with the same payload but with the new expiration time
-      const newToken = jwt.sign(decodedToken.payload, "shhhhh", { expiresIn: expirationTime });
+      const newToken = jwt.sign({...decodedToken.payload,exp: expirationTime}, "shhhhh");
 
       // Send the new token to the client to replace the old token
       res.status(200).json({ message: "Logout successful", token: newToken });
@@ -105,6 +105,7 @@ const logout = async (req, res) => {
     }
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });
+    console.log(error)
   }
 };
 
