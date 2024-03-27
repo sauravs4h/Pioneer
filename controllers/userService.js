@@ -52,7 +52,8 @@ const logIn = async (req, res) => {
           res.status(500).json({ message: err });
         }
         if (result) {
-          var token = jwt.sign({ foo: "bar" }, "shhhhh");
+          const expirationTime = Math.floor(Date.now() / 1000) + (60 * 60); // 1 hour
+          var token = jwt.sign({ foo: "bar", exp: expirationTime }, "shhhhh");
           res.status(200).json({ msg: "Login Successfull ", token: token,userName });
         } else {
             res.status(401).json({message:"Wrong craditionals"})
@@ -82,4 +83,30 @@ const getUser=async(req,res)=>{
   }
 }
 
-module.exports = { signUp, logIn,getUser };
+const logout = async (req, res) => {
+  const token = req.headers.authorization.split(" ")[1]; 
+
+  try {
+    
+    const decodedToken = jwt.decode(token, { complete: true });
+
+    if (decodedToken) {
+      // Set expiration time to current time (0 seconds)
+      const expirationTime = Math.floor(Date.now() / 1000);
+
+      // Sign a new token with the same payload but with the new expiration time
+      const newToken = jwt.sign(decodedToken.payload, "shhhhh", { expiresIn: expirationTime });
+
+      // Send the new token to the client to replace the old token
+      res.status(200).json({ message: "Logout successful", token: newToken });
+    } else {
+      // If token cannot be decoded, return an error
+      res.status(400).json({ message: "Invalid token" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+
+module.exports = { signUp, logIn,getUser,logout };
